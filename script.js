@@ -16,8 +16,8 @@ let chartReferenceWeight = 75
 
 // Weight and WindSpeed from Prompts
 
-let weight = parseInt(prompt("Ingresa tu peso (en kilogramos):"),10);
-let windSpeedKnots = parseInt(prompt("Ingresa velocidad del viento donde navegas (en Nudos):"),10);
+let weight = parseInt(prompt("Ingresa tu peso (Kilogramos):"),10);
+let windSpeedKnots = parseInt(prompt("Ingresa velocidad del viento donde navegas (Nudos):"),10);
 
 
 for (let i of kiteSizeTable) {
