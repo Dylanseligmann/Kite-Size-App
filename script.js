@@ -74,6 +74,6 @@ else if( riderWeight > 120 ){
     
     alert('Es hora de bajar los postres')
 }
-else{alert(`El tamanio de Kite recomendado para tu peso y condicion es: `+ '\n' + kiteSize + ' Metros Cuadrados');}
+else {alert(`El tamanio de Kite recomendado para tu peso y condicion es: `+ '\n' + kiteSize + ' Metros Cuadrados');}
 
 
