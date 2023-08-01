@@ -1,4 +1,25 @@
-function calculateKiteSize() {
+// Weight and WindSpeed from Prompts
+
+let riderWeight = parseInt(prompt("Ingresa tu peso (Kilogramos):"),10);
+
+
+while (isNaN(riderWeight)) {
+    riderWeight = prompt ("Valor invalido, por favor ingrese un peso (Kg).");
+    
+}
+
+
+let windSpeedKnots = parseInt(prompt("Ingresa velocidad del viento donde navegas (Nudos):"),10);
+
+
+while (isNaN(windSpeedKnots)) {
+    windSpeedKnots = prompt ("Valor invalido, por favor ingrese la velocidad del viento en nudos (Kts)");
+    
+}
+
+//End of Prompts
+
+function calculateKiteSize(wind, weight) {
 // Kite size table for 75 kg
 const kiteSizeTable = [
     { windRange: [0, 9], kiteSize: 18 },
@@ -7,6 +28,7 @@ const kiteSizeTable = [
     { windRange: [16, 20], kiteSize: 9 },
     { windRange: [21, 25], kiteSize: 7 },
     { windRange: [26, 35], kiteSize: 5 },
+    { windRange: [36, 50], kiteSize: 3 },
 ];
 
 
@@ -14,32 +36,40 @@ const kiteSizeTable = [
 
 let chartReferenceWeight = 75 
 
-// Weight and WindSpeed from Prompts
-
-let weight = parseInt(prompt("Ingresa tu peso (Kilogramos):"),10);
-let windSpeedKnots = parseInt(prompt("Ingresa velocidad del viento donde navegas (Nudos):"),10);
-
 
 for (let i of kiteSizeTable) {
     let minWind = i.windRange[0];
     let maxWind = i.windRange[1];
 
-    if (windSpeedKnots >= minWind && windSpeedKnots <= maxWind) {
-    // Ratio from 75 kg to entered weight in Prompt
+    if (wind >= minWind && wind <= maxWind) {
+    // Ratio from 75 kg to entered weight in Prompt 
     let weightRatio = (weight / chartReferenceWeight); 
 
     // KiteSize Calculation 
     let kiteSize = (weightRatio * i.kiteSize);
 
-    return kiteSize.toFixed(0); // no decimal points
+    return Math.ceil(kiteSize); // no decimal points
     }
+
+}
+
+//If wind is over 50 kts 
+
+return 'tooMuchWindYouGonDie'
+
 }
 
 
-// If the wind speed is outside the specified range, return an error
-return "Error: Los datos ingresados estan fuera de los rangos de viento.";
+let kiteSize = calculateKiteSize(windSpeedKnots,riderWeight);
+
+
+//Final Alert
+
+
+if(kiteSize == 'tooMuchWindYouGonDie' ){
+
+    alert('Si vas a entrar con mas de 50 nudos, que la fuerza te acompanie')
 }
+else{alert(`El tamanio de Kite recomendado para tu peso y condicion es: `+ '\n' + kiteSize + ' Metros Cuadrados');}
 
 
-let kiteSize = calculateKiteSize();
-alert(`El tamanio de Kite recomendado para tu peso y condicion es: `+ '\n' + kiteSize + ' Metros Cuadrados');
