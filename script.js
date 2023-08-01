@@ -66,9 +66,13 @@ let kiteSize = calculateKiteSize(windSpeed,riderWeight);
 //Final Alert
 
 
-if(kiteSize == 'tooMuchWindYouGonDie' ){
+if ( kiteSize == 'tooMuchWindYouGonDie' ){
 
     alert('Si vas a entrar con mas de 50 nudos, que la fuerza te acompanie')
+}
+else if( riderWeight > 120 ){
+    
+    alert('Es hora de bajar los postres')
 }
 else{alert(`El tamanio de Kite recomendado para tu peso y condicion es: `+ '\n' + kiteSize + ' Metros Cuadrados');}
 
