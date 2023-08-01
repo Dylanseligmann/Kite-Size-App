@@ -1,6 +1,6 @@
 // Weight and WindSpeed from Prompts
 
-let riderWeight = parseInt(prompt("Ingresa tu peso (Kilogramos):"),10);
+let riderWeight = parseInt(prompt("Ingresa tu peso (Kg):"),10);
 
 
 while (isNaN(riderWeight)) {
@@ -9,11 +9,11 @@ while (isNaN(riderWeight)) {
 }
 
 
-let windSpeedKnots = parseInt(prompt("Ingresa velocidad del viento donde navegas (Nudos):"),10);
+let windSpeed = parseInt(prompt("Ingresa velocidad del viento donde navegas en Nudos (Kts):"),10);
 
 
-while (isNaN(windSpeedKnots)) {
-    windSpeedKnots = prompt ("Valor invalido, por favor ingrese la velocidad del viento en nudos (Kts)");
+while (isNaN(windSpeed)) {
+    windSpeed = prompt ("Valor invalido, por favor ingrese la velocidad del viento en nudos (Kts)");
     
 }
 
@@ -60,7 +60,7 @@ return 'tooMuchWindYouGonDie'
 }
 
 
-let kiteSize = calculateKiteSize(windSpeedKnots,riderWeight);
+let kiteSize = calculateKiteSize(windSpeed,riderWeight);
 
 
 //Final Alert
