@@ -1,79 +1,86 @@
-// Weight and WindSpeed from Prompts
+// Weight and WindSpeed from Sliders
 
-let riderWeight = parseInt(prompt("Ingresa tu peso (Kg):"),10);
+let weightRange = document.getElementById("weightRange");
+let windRange = document.getElementById("windRange");
+let weightDisplay = document.getElementById("weightDisplay");
+let windDisplay = document.getElementById("windDisplay");
+
+// Display Slider Values
+weightRange.addEventListener("input", () => {
+
+	processKiteSize()
+});
+
+windRange.addEventListener("input", () => {
+
+	processKiteSize()
+});
 
 
-while (isNaN(riderWeight)) {
-    riderWeight = prompt ("Valor invalido, por favor ingrese un peso (Kg).");
-    
-}
-
-
-let windSpeed = parseInt(prompt("Ingresa velocidad del viento donde navegas en Nudos (Kts):"),10);
-
-
-while (isNaN(windSpeed)) {
-    windSpeed = prompt ("Valor invalido, por favor ingrese la velocidad del viento en nudos (Kts)");
-    
-}
-
-//End of Prompts
+//Calculate Kite Size RAW
 
 function calculateKiteSize(wind, weight) {
-// Kite size table for 75 kg
-const kiteSizeTable = [
-    { windRange: [0, 9], kiteSize: 18 },
-    { windRange: [10, 12], kiteSize: 16 },
-    { windRange: [13, 15], kiteSize: 12 },
-    { windRange: [16, 20], kiteSize: 9 },
-    { windRange: [21, 25], kiteSize: 7 },
-    { windRange: [26, 35], kiteSize: 5 },
-    { windRange: [36, 50], kiteSize: 3 },
-];
+	// Kite size table for 75 kg
+	const kiteSizeTable = [
+		{ windRange: [0, 9], kiteSize: 18 },
+		{ windRange: [10, 12], kiteSize: 16 },
+		{ windRange: [13, 15], kiteSize: 12 },
+		{ windRange: [16, 20], kiteSize: 9 },
+		{ windRange: [21, 25], kiteSize: 7 },
+		{ windRange: [26, 35], kiteSize: 5 },
+		{ windRange: [36, 50], kiteSize: 3 },
+	];
 
+	//75 kg Reference from chart
 
-//75 kg Reference from chart
+	let chartReferenceWeight = 75;
 
-let chartReferenceWeight = 75 
+	for (let i of kiteSizeTable) {
+		let minWind = i.windRange[0];
+		let maxWind = i.windRange[1];
 
+		if (wind >= minWind && wind <= maxWind) {
+			// Ratio from 75 kg to entered weight in Prompt
+			let weightRatio = weight / chartReferenceWeight;
 
-for (let i of kiteSizeTable) {
-    let minWind = i.windRange[0];
-    let maxWind = i.windRange[1];
+			// KiteSize Calculation
+			let kiteSize = weightRatio * i.kiteSize;
 
-    if (wind >= minWind && wind <= maxWind) {
-    // Ratio from 75 kg to entered weight in Prompt 
-    let weightRatio = (weight / chartReferenceWeight); 
-
-    // KiteSize Calculation 
-    let kiteSize = (weightRatio * i.kiteSize);
-
-    return Math.ceil(kiteSize); // no decimal points
-    }
-
-}
-
-//If wind is over 50 kts 
-
-return 'tooMuchWindYouGonDie'
+			return Math.ceil(kiteSize); // no decimal points
+		}
+	}
 
 }
 
+//Calculate Kite Size With User Data
 
-let kiteSize = calculateKiteSize(windSpeed,riderWeight);
+function processKiteSize() {
+	weightDisplay.textContent = weightRange.value;
+	windDisplay.textContent = windRange.value;
 
+	const kiteSize = calculateKiteSize(windRange.value, weightRange.value)
 
-//Final Alert
+	document.getElementById('kiteSizeDisplay').innerHTML = kiteSize
 
-
-if ( kiteSize == 'tooMuchWindYouGonDie' ){
-
-    alert('Si vas a entrar con mas de 50 nudos, que la fuerza te acompanie')
+	// localStorage.setItem('ridersWeight', weightRange.value )
+	// localStorage.setItem('windSpeed', windRange.value)
+	localStorage.setItem('config', JSON.stringify({
+		wind: windRange.value,
+		weight: weightRange.value
+	}))
 }
-else if( riderWeight > 120 ){
-    
-    alert('Es hora de bajar los postres')
-}
-else {alert(`El tamanio de Kite recomendado para tu peso y condicion es: `+ '\n' + kiteSize + ' Metros Cuadrados');}
 
+
+//Show Sliders Latest Config
+
+addEventListener('DOMContentLoaded', event => {
+	const storedValue = localStorage.getItem('config');
+	if (!storedValue) return;
+
+	const { wind, weight } = JSON.parse(storedValue);
+	weightRange.value = weight
+	windRange.value = wind
+	processKiteSize()
+
+})
 
