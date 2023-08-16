@@ -5,6 +5,22 @@ let windRange = document.getElementById("windRange");
 let weightDisplay = document.getElementById("weightDisplay");
 let windDisplay = document.getElementById("windDisplay");
 
+
+//Show Sliders Latest Config
+
+addEventListener('DOMContentLoaded', event => {
+	const storedValue = localStorage.getItem('config');
+	if (!storedValue) return;
+
+	const { wind, weight } = JSON.parse(storedValue);
+	weightRange.value = weight
+	windRange.value = wind
+	processKiteSize()
+
+})
+
+
+
 // Display Slider Values
 weightRange.addEventListener("input", () => {
 
@@ -68,19 +84,65 @@ function processKiteSize() {
 		wind: windRange.value,
 		weight: weightRange.value
 	}))
+
+	changeWindColorBasedOnValue()
+	changeWeightColorBasedOnValue()
 }
 
 
-//Show Sliders Latest Config
 
-addEventListener('DOMContentLoaded', event => {
-	const storedValue = localStorage.getItem('config');
-	if (!storedValue) return;
 
-	const { wind, weight } = JSON.parse(storedValue);
-	weightRange.value = weight
-	windRange.value = wind
-	processKiteSize()
 
-})
+//Slider Value Colors
 
+
+function changeWindColorBasedOnValue(){
+
+	const wind = windRange.value
+
+	if (wind <= 15) {
+
+		windDisplay.style.color = 'darkgreen'
+
+	}
+	else if(wind > 15 && wind <= 25  ){
+
+		windDisplay.style.color = 'green'
+	}
+
+	else if(wind > 25 && wind <= 35){
+
+		windDisplay.style.color = 'orange'
+	}
+	else{
+		windDisplay.style.color = 'red'
+	}
+
+
+}
+
+
+function changeWeightColorBasedOnValue() {
+
+	const weight = weightRange.value
+
+	if (weight <= 65) {
+
+		weightDisplay.style.color = 'darkgreen'
+
+	}
+	else if (weight > 65 && weight <= 75) {
+
+		weightDisplay.style.color = 'green'
+	}
+
+	else if (weight > 75 && weight <= 100) {
+
+		weightDisplay.style.color = '#FFD580'
+	}
+	else {
+		weightDisplay.style.color = '#FF8C00'
+	}
+
+
+}
